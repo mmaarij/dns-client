@@ -1,4 +1,4 @@
-import { DNSClient, DNSQuery } from "./dns";
+import { DNSClient, DNSQuery } from "../dns";
 
 async function main() {
   const [,, type, domain] = process.argv;

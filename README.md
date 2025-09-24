@@ -20,18 +20,36 @@ npm install
 
 ## Usage
 
-Run the CLI to perform DNS queries directly with ts-node (if installed):
+### CLI Usage
+
+Run the CLI to perform DNS queries:
 
 ```bash
-npx ts-node src/cli.ts <recordType> <domain>
+npx ts-node src/cli/cli.ts <recordType> <domain>
 ```
 
-- `<recordType>`: DNS record type
+- `<recordType>`: DNS record type (A, AAAA, CNAME)
 - `<domain>`: The domain name to query (e.g., `example.com`)
 
+### Example
+
+```bash
+npx ts-node src/cli/cli.ts A example.com
+```
 
 ## Project Structure
-- `src/cli.ts`: Command-line interface entry point
-- `src/dns.ts`: DNS query logic
-- `package.json`: Project metadata and scripts
-- `tsconfig.json`: TypeScript configuration
+
+```
+dns-client/
+├── package.json            # Project metadata and scripts
+├── tsconfig.json           # TypeScript configuration
+├── src/
+│   ├── cli/
+│   │   └── cli.ts          # CLI entry point
+│   └── dns/
+│       ├── index.ts        # Barrel file: re-exports DNS modules
+│       ├── DNSClient.ts    # DNS client implementation
+│       ├── DNSQuery.ts     # DNS query builder
+│       ├── DNSBuffer.ts    # DNS packet buffer utilities
+│       └── RecordType.ts   # DNS record type definitions
+```
