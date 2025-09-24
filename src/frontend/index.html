@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>DNS Client</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+		<div class="container-fluid">
+			<div class="row mt-4">
+				<div class="col-md-5">
+					<h2 class="mb-4">DNS Query</h2>
+					<form role="form" id="dnsForm">
+						<div class="form-group mb-3">
+							<label for="domainInput">Domain</label>
+							<input type="text" class="form-control" id="domainInput" placeholder="Enter domain name">
+						</div>
+						<div class="form-group mb-3">
+							<label for="recordTypeSelect">Record Type</label>
+							<select class="form-control" id="recordTypeSelect">
+								<option value="A">A</option>
+								<option value="AAAA">AAAA</option>
+								<option value="CNAME">CNAME</option>
+							</select>
+						</div>
+						<button type="submit" class="btn btn-primary">Query DNS</button>
+					</form>
+				</div>
+				<div class="col-md-7">
+					<h2 class="mb-4">Results</h2>
+					<table class="table table-bordered" id="resultsTable">
+						<thead>
+							<tr>
+								<th>Type</th>
+								<th>Value</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- Results will be inserted here -->
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

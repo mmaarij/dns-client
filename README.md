@@ -31,11 +31,23 @@ npx ts-node src/cli/cli.ts <recordType> <domain>
 - `<recordType>`: DNS record type (A, AAAA, CNAME)
 - `<domain>`: The domain name to query (e.g., `example.com`)
 
-### Example
+#### Example
 
 ```bash
 npx ts-node src/cli/cli.ts A example.com
 ```
+
+### Web Usage
+
+You can also use the DNS client from your browser:
+
+1. Start the server:
+	```bash
+	npx ts-node src/server/server.ts
+	```
+2. Open your browser and go to [http://localhost:3000](http://localhost:3000)
+3. Enter a domain and select a record type in the form on the left, then click "Query DNS".
+4. Results will be displayed in the table on the right.
 
 ## Project Structure
 
