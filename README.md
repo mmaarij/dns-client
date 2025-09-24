@@ -23,11 +23,11 @@ npm install
 Run the CLI to perform DNS queries directly with ts-node (if installed):
 
 ```bash
-npx ts-node src/cli.ts <domain> <recordType>
+npx ts-node src/cli.ts <recordType> <domain>
 ```
 
-- `<domain>`: The domain name to query (e.g., `example.com`)
 - `<recordType>`: DNS record type
+- `<domain>`: The domain name to query (e.g., `example.com`)
 
 
 ## Project Structure
