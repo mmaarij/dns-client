@@ -8,4 +8,6 @@ export enum RecordType {
   CNAME = 5,
   /** IPv6 address record */
   AAAA = 28,
+  /** Name server record */
+  NS = 2,
 }

@@ -3,7 +3,7 @@ import { DNSClient, DNSQuery } from "../dns";
 async function main() {
   const [,, type, domain] = process.argv;
   if (!type || !domain) {
-    console.error("Usage: ts-node src/cli.ts <A|AAAA|CNAME> <domain>");
+    console.error("Usage: ts-node src/cli.ts <A|AAAA|CNAME>|<NS> <domain>");
     process.exit(1);
   }
 
@@ -12,8 +12,9 @@ async function main() {
     case "A": query = DNSQuery.a(domain); break;
     case "AAAA": query = DNSQuery.aaaa(domain); break;
     case "CNAME": query = DNSQuery.cname(domain); break;
+    case "NS": query = DNSQuery.ns(domain); break;
     default:
-      console.error("Invalid query type. Use A, AAAA, or CNAME");
+      console.error("Invalid query type. Use A, AAAA, CNAME or NS");
       process.exit(1);
   }
 

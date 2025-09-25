@@ -3,7 +3,7 @@
 A simple DNS client written in TypeScript. This project allows you to perform DNS queries from the command line using Node.js.
 
 ## Features
-- Query DNS records (A, AAAA and CNAME)
+- Query DNS records (A, AAAA CNAME and NS)
 - Command line interface
 
 ## Prerequisites
@@ -28,7 +28,7 @@ Run the CLI to perform DNS queries:
 npx ts-node src/cli/cli.ts <recordType> <domain>
 ```
 
-- `<recordType>`: DNS record type (A, AAAA, CNAME)
+- `<recordType>`: DNS record type (A, AAAA, CNAME, NS)
 - `<domain>`: The domain name to query (e.g., `example.com`)
 
 #### Example

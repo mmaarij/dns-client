@@ -9,7 +9,7 @@ export class DNSQuery {
 
   /**
    * @param qname Domain name being queried.
-   * @param qtype Record type (A, AAAA, or CNAME).
+   * @param qtype Record type (A, AAAA, CNAME, or NS).
    */
   constructor(private qname: string, private qtype: RecordType) {
     this.id = Math.floor(Math.random() * 65536);
@@ -37,6 +37,14 @@ export class DNSQuery {
    */
   static cname(domain: string) {
     return new DNSQuery(domain, RecordType.CNAME);
+  }
+
+  /**
+   * Create a NS (name server record) query.
+   * @param domain The domain name.
+   */
+  static ns(domain: string) {
+    return new DNSQuery(domain, RecordType.NS);
   }
 
   /**

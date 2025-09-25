@@ -90,6 +90,10 @@ export class DNSClient {
         const cname = buf.readName();
         answers.push(["CNAME", cname]);
         continue;
+      } else if (rtype === RecordType.NS) {
+        const ns = buf.readName();
+        answers.push(["NS", ns]);
+        continue;
       }
 
       buf.advance(rdlen);

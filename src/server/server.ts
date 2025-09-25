@@ -16,7 +16,7 @@ app.listen(port, () => {
  * DNS query endpoint. Accepts 'type' and 'domain' query parameters.
  *
  * @route GET /query
- * @param {string} req.query.type - DNS record type (A, AAAA, CNAME)
+ * @param {string} req.query.type - DNS record type (A, AAAA, CNAME, NS)
  * @param {string} req.query.domain - Domain name to query
  * @returns {Object} 200 - JSON object with DNS results
  * @returns {Object} 400 - Error message for missing/invalid parameters
@@ -29,8 +29,8 @@ app.get('/query', async(req, res) => {
     return res.status(400).json({ error: "Domain parameter is required" });
   }
   
-  if (!type || !["A", "AAAA", "CNAME"].includes(type.toString().toUpperCase())) {
-    return res.status(400).json({ error: "Invalid or missing type parameter. Use A, AAAA, or CNAME" });
+  if (!type || !["A", "AAAA", "CNAME", "NS"].includes(type.toString().toUpperCase())) {
+    return res.status(400).json({ error: "Invalid or missing type parameter. Use A, AAAA, CNAME or NS" });
   }
 
   try {
@@ -39,6 +39,7 @@ app.get('/query', async(req, res) => {
       case "A": query = DNSQuery.a(domain as string); break;
       case "AAAA": query = DNSQuery.aaaa(domain as string); break;
       case "CNAME": query = DNSQuery.cname(domain as string); break;
+      case "NS": query = DNSQuery.ns(domain as string); break;
   }
 
   if (!query) {
