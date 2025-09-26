@@ -58,3 +58,26 @@ The library is organized for Clean Architecture:
 - **Domain Layer**: Core interfaces and types (e.g., packet builder, parser, transport, `DNSRecordType`, `DNSConfig`)
 - **Application Layer**: `DNSQueryService` orchestrates DNS queries using injected interfaces
 - **Implementation Layer**: Default classes implementing domain interfaces (UDP transport, packet builder, parser)
+
+## Sequence Diagram
+
+```mermaid
+sequenceDiagram
+  participant User
+  participant DNSQueryService
+  participant DNSBuilder
+  participant DNSBuffer
+  participant DNSTransport
+  participant DNSParser
+
+  User ->> DNSQueryService: query(domain, type)
+  DNSQueryService ->> DNSBuilder: buildPacket(domain, type, id)
+  DNSBuilder ->> DNSBuffer: writePacket()
+  DNSBuilder -->> DNSQueryService: return Buffer
+  DNSQueryService ->> DNSTransport: send(Buffer)
+  DNSTransport -->> DNSQueryService: return response Buffer
+  DNSQueryService ->> DNSParser: parse(response Buffer)
+  DNSParser ->> DNSBuffer: readPacket()
+  DNSParser -->> DNSQueryService: return answers
+  DNSQueryService -->> User: return answers
+```
