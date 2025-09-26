@@ -1,7 +1,7 @@
 /**
  * Supported DNS record types.
  */
-export enum RecordType {
+export enum DNSRecordType {
   /** IPv4 address record */
   A = 1,
   /** Canonical name record */
@@ -10,4 +10,8 @@ export enum RecordType {
   AAAA = 28,
   /** Name server record */
   NS = 2,
+  /** Mail exchange record */
+  MX = 15,
+  /** Text record */
+  TXT = 16,
 }

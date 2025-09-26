@@ -1,67 +1,60 @@
-# DNS Client
+# dns-client
 
-A simple DNS client written in TypeScript. This project allows you to perform DNS queries from the command line using Node.js.
+TypeScript DNS client library for Bun/Node.js. Query DNS records (A, AAAA, CNAME, MX, NS, TXT) from your own applications. Built with Clean Architecture for flexibility.
 
-## Features
-- Query DNS records (A, AAAA CNAME and NS)
-- Command line interface
+## Quick Start
 
-## Prerequisites
-- Node.js
-- npm
+### Usage
 
-## Installation
+```typescript
+import {
+  DNSQueryService,
+  DNSBuilder,
+  DNSParser,
+  DNSTransport,
+  DNSRecordType,
+  DNSConfig,
+} from "dns-client";
 
-Clone the repository and install dependencies:
+// Use default config
+const service = new DNSQueryService(
+  new DNSBuilder(),
+  new DNSParser(),
+  new DNSTransport()
+);
+const answers = await service.query("example.com", DNSRecordType.A);
+console.log(answers);
 
-```bash
-npm install
+// Or use custom config
+const customConfig = new DNSConfig("1.1.1.1", 53, 5000);
+const customTransport = new DNSTransport(customConfig);
+const customService = new DNSQueryService(
+  new DNSBuilder(),
+  new DNSParser(),
+  customTransport
+);
+const customAnswers = await customService.query("gmail.com", DNSRecordType.TXT);
+console.log(customAnswers);
 ```
 
-## Usage
+### Custom Implementations
 
-### CLI Usage
+You can implement your own packet builder, parser, or transport by using the exported interfaces:
 
-Run the CLI to perform DNS queries:
+- `IDNSPacketBuilder`
+- `IDNSPacketParser`
+- `ITransport`
 
-```bash
-npx ts-node src/cli/cli.ts <recordType> <domain>
-```
+## API Reference
 
-- `<recordType>`: DNS record type (A, AAAA, CNAME, NS)
-- `<domain>`: The domain name to query (e.g., `example.com`)
+- `DNSQueryService.query(domain: string, type: DNSRecordType): Promise<[string, string][]>`
+- Supported record types: `DNSRecordType.A`, `AAAA`, `CNAME`, `MX`, `NS`, `TXT`
+- All core classes and interfaces are exported for extension and testing.
 
-#### Example
+## Architecture
 
-```bash
-npx ts-node src/cli/cli.ts A example.com
-```
+The library is organized for Clean Architecture:
 
-### Web Usage
-
-You can also use the DNS client from your browser:
-
-1. Start the server:
-	```bash
-	npx ts-node src/server/server.ts
-	```
-2. Open your browser and go to [http://localhost:3000](http://localhost:3000)
-3. Enter a domain and select a record type in the form on the left, then click "Query DNS".
-4. Results will be displayed in the table on the right.
-
-## Project Structure
-
-```
-dns-client/
-├── package.json            # Project metadata and scripts
-├── tsconfig.json           # TypeScript configuration
-├── src/
-│   ├── cli/
-│   │   └── cli.ts          # CLI entry point
-│   └── dns/
-│       ├── index.ts        # Barrel file: re-exports DNS modules
-│       ├── DNSClient.ts    # DNS client implementation
-│       ├── DNSQuery.ts     # DNS query builder
-│       ├── DNSBuffer.ts    # DNS packet buffer utilities
-│       └── RecordType.ts   # DNS record type definitions
-```
+- **Domain Layer**: Core interfaces and types (e.g., packet builder, parser, transport, `DNSRecordType`, `DNSConfig`)
+- **Application Layer**: `DNSQueryService` orchestrates DNS queries using injected interfaces
+- **Implementation Layer**: Default classes implementing domain interfaces (UDP transport, packet builder, parser)

@@ -90,12 +90,27 @@ export class DNSBuffer {
     if (!this.data) throw new Error("Buffer not initialized for reading");
     const labels: string[] = [];
     while (true) {
+      if (this.offset >= this.data.length) {
+        throw new Error("Offset out of bounds while reading name");
+      }
       const len = this.data[this.offset++];
+      if (typeof len === "undefined") {
+        throw new Error("Length byte is undefined while reading name");
+      }
       if (len === 0) break;
 
       // handle name compression
       if ((len & 0xc0) === 0xc0) {
-        const ptr = ((len & 0x3f) << 8) | this.data[this.offset++];
+        if (this.offset >= this.data.length) {
+          throw new Error(
+            "Offset out of bounds while reading compression pointer"
+          );
+        }
+        const nextByte = this.data[this.offset++];
+        if (typeof nextByte === "undefined") {
+          throw new Error("Compression pointer byte is undefined");
+        }
+        const ptr = ((len & 0x3f) << 8) | nextByte;
         const saved = this.offset;
         this.offset = ptr;
         labels.push(this.readName());
@@ -103,6 +118,9 @@ export class DNSBuffer {
         return labels.join(".");
       }
 
+      if (this.offset + len > this.data.length) {
+        throw new Error("Label length out of bounds while reading name");
+      }
       const label = this.data
         .subarray(this.offset, this.offset + len)
         .toString("ascii");
